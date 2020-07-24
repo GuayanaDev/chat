@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">
+            {{ user }}
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-avatar>
+                <img sizes="20" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
+            </ion-avatar>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-input type="text" name="mensaje" [(ngModel)]="user" placeholder="Ingresar Usuario"></ion-input>
+    <ion-grid>
+        <ion-row *ngFor="let chat of items">
+            <ion-col size="9" *ngIf="user != chat.name" class="message other-message">
+                <b>{{ chat.name }}</b> <br>
+                <span> {{ chat.message }} </span>
+                <div class="ion-text-end">
+                    <small class="time" class="ion-text-end"> {{ chat.date | date:'short' }} </small>
+                </div>
+            </ion-col>
+
+            <ion-col offset="3" size="9" *ngIf="user === chat.name" class="message my-message">
+                <b>{{ chat.name }}</b> <br>
+                <span> {{ chat.message }} </span>
+                <div class="ion-text-end">
+                    <small class="time" class="ion-text-end"> {{ chat.date | date:'short' }} </small>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar color="light">
+        <ion-row class="ion-align-items-center ion-no-padding">
+            <ion-col size="9">
+                <textarea autosize maxRows="4" [(ngModel)]="mensaje" name="mensaje" class="msg-input"></textarea>
+            </ion-col>
+            <ion-col size="3">
+                <ion-button (click)="sendMessage()" expand="block" fill="clear" color="primary" [disabled]="mensaje === ''" class="msg-btn">
+                    <ion-icon name="send-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>
