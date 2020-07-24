@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
-import { MessageModel } from '../domain/models/message.model';
-import { CreateMessageUseCase } from '../domain/usecases/message/create-message.usecase';
-import { GetAllMessageUseCase } from '../domain/usecases/message/get-all-message.usecase';
+import { MessageModel } from '../../domain/models/message.model';
+import { CreateMessageUseCase } from '../../domain/usecases/message/create-message.usecase';
+import { GetAllMessageUseCase } from '../../domain/usecases/message/get-all-message.usecase';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +22,8 @@ export class HomePage {
   getMessages(){
     this.items = [];
     this.getAllMessage.execute(null).subscribe((message: MessageModel) => {
-      this.items = [...this.items, message];
+      const hasMessage = this.items.find(item => item.date === message.date);
+      if (!hasMessage) { this.items.push(message); }
     }, err => {
       console.log('Error al cargar los mensaje: ', err);
     });
@@ -54,7 +55,7 @@ export class HomePage {
 
     this.mensaje = '';
     setTimeout(() => {
-      this.content.scrollToBottom(200);
-    }, 200);
+      this.content.scrollToBottom(500);
+    }, 300);
   }
 }
